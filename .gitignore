@@ -98,3 +98,6 @@ venv.bak/
 *.cb
 *.cb2
 .*.lb
+
+# CSV files
+*.csv
