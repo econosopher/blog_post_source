@@ -1,0 +1,215 @@
+{
+  "gaming": [
+    {
+      "page": 2,
+      "activity_match": "\u2022 socializing and communicating, along with playing games and computer use for leisure, occupied",
+      "context": "\u2022 watching tv was the leisure and sports activity that occupied the most time (2.6 hours per day), \naccounting for over half of all leisure time, on average (5.1 hours per day). (see tables 1 and 11a.) \n \n\u2022 socializing and communicating, along with playing games and computer use for leisure, occupied \nthe most amount of time spent in leisure and sports activities after watching tv. on an average day, \nindividuals spent 35 minutes socializing and communicating and 34 minutes playing games and \nusing a computer for leisure. they spent twice as much time socializing and communicating on ",
+      "time_values": [
+        "2.6",
+        "5.1"
+      ]
+    },
+    {
+      "page": 3,
+      "activity_match": "\u2022 time spent reading for personal interest and playing games or using a computer for leisure varied",
+      "context": "- 3 - \n\u2022 time spent reading for personal interest and playing games or using a computer for leisure varied \ngreatly by age. on an average day, individuals age 75 and over spent 46 minutes reading while those \nages 15 to 19 read for 9 minutes. conversely, individuals ages 15 to 19 spent 1.3 hours playing \ngames or using a computer for leisure on an average day, while those ages 75 and over spent 26 ",
+      "time_values": [
+        "1.3"
+      ]
+    }
+  ],
+  "tv": [
+    {
+      "page": 2,
+      "activity_match": "such as watching tv, socializing, or exercising on an average day. while men and women were",
+      "context": "leisure and sports activities in 2024 \n \n\u2022 nearly everyone age 15 and over (94 percent) engaged in some sort of leisure and sport activity, \nsuch as watching tv, socializing, or exercising on an average day. while men and women were \nequally likely to engage in leisure and sports activities, men spent more time in these activities than \ndid women (5.5 hours, compared with 4.7 hours). (see table 1.) \n ",
+      "time_values": [
+        "5.5",
+        "4.7"
+      ]
+    },
+    {
+      "page": 2,
+      "activity_match": "\u2022 watching tv was the leisure and sports activity that occupied the most time (2.6 hours per day),",
+      "context": "more than any other age group. those ages 35 to 44 averaged 3.8 hours doing leisure and sports \nactivities per day\u2014less than all other age groups. (see table 11a.)  \n \n\u2022 watching tv was the leisure and sports activity that occupied the most time (2.6 hours per day), \naccounting for over half of all leisure time, on average (5.1 hours per day). (see tables 1 and 11a.) \n \n\u2022 socializing and communicating, along with playing games and computer use for leisure, occupied ",
+      "time_values": [
+        "3.8",
+        "2.6",
+        "5.1"
+      ]
+    },
+    {
+      "page": 2,
+      "activity_match": "the most amount of time spent in leisure and sports activities after watching tv. on an average day,",
+      "context": "accounting for over half of all leisure time, on average (5.1 hours per day). (see tables 1 and 11a.) \n \n\u2022 socializing and communicating, along with playing games and computer use for leisure, occupied \nthe most amount of time spent in leisure and sports activities after watching tv. on an average day, \nindividuals spent 35 minutes socializing and communicating and 34 minutes playing games and \nusing a computer for leisure. they spent twice as much time socializing and communicating on \nweekend days (56 minutes) than on weekdays (26 minutes). (see tables 1, 11a, and 11b.) ",
+      "time_values": [
+        "5.1"
+      ]
+    }
+  ],
+  "social_media": [],
+  "leisure": [
+    {
+      "page": 2,
+      "activity_match": "equally likely to engage in leisure and sports activities, men spent more time in these activities than",
+      "context": " \n\u2022 nearly everyone age 15 and over (94 percent) engaged in some sort of leisure and sport activity, \nsuch as watching tv, socializing, or exercising on an average day. while men and women were \nequally likely to engage in leisure and sports activities, men spent more time in these activities than \ndid women (5.5 hours, compared with 4.7 hours). (see table 1.) \n \n\u2022 on average, adults age 75 and over spent 7.6 hours engaged in leisure and sports activities per day\u2014",
+      "time_values": [
+        "5.5",
+        "4.7",
+        "7.6"
+      ]
+    },
+    {
+      "page": 2,
+      "activity_match": "\u2022 on average, adults age 75 and over spent 7.6 hours engaged in leisure and sports activities per day\u2014",
+      "context": "equally likely to engage in leisure and sports activities, men spent more time in these activities than \ndid women (5.5 hours, compared with 4.7 hours). (see table 1.) \n \n\u2022 on average, adults age 75 and over spent 7.6 hours engaged in leisure and sports activities per day\u2014\nmore than any other age group. those ages 35 to 44 averaged 3.8 hours doing leisure and sports \nactivities per day\u2014less than all other age groups. (see table 11a.)  \n ",
+      "time_values": [
+        "5.5",
+        "4.7",
+        "7.6",
+        "3.8"
+      ]
+    },
+    {
+      "page": 2,
+      "activity_match": "more than any other age group. those ages 35 to 44 averaged 3.8 hours doing leisure and sports",
+      "context": "did women (5.5 hours, compared with 4.7 hours). (see table 1.) \n \n\u2022 on average, adults age 75 and over spent 7.6 hours engaged in leisure and sports activities per day\u2014\nmore than any other age group. those ages 35 to 44 averaged 3.8 hours doing leisure and sports \nactivities per day\u2014less than all other age groups. (see table 11a.)  \n \n\u2022 watching tv was the leisure and sports activity that occupied the most time (2.6 hours per day), ",
+      "time_values": [
+        "5.5",
+        "4.7",
+        "7.6",
+        "3.8",
+        "2.6"
+      ]
+    },
+    {
+      "page": 2,
+      "activity_match": "\u2022 watching tv was the leisure and sports activity that occupied the most time (2.6 hours per day),",
+      "context": "more than any other age group. those ages 35 to 44 averaged 3.8 hours doing leisure and sports \nactivities per day\u2014less than all other age groups. (see table 11a.)  \n \n\u2022 watching tv was the leisure and sports activity that occupied the most time (2.6 hours per day), \naccounting for over half of all leisure time, on average (5.1 hours per day). (see tables 1 and 11a.) \n \n\u2022 socializing and communicating, along with playing games and computer use for leisure, occupied ",
+      "time_values": [
+        "3.8",
+        "2.6",
+        "5.1"
+      ]
+    },
+    {
+      "page": 2,
+      "activity_match": "the most amount of time spent in leisure and sports activities after watching tv. on an average day,",
+      "context": "accounting for over half of all leisure time, on average (5.1 hours per day). (see tables 1 and 11a.) \n \n\u2022 socializing and communicating, along with playing games and computer use for leisure, occupied \nthe most amount of time spent in leisure and sports activities after watching tv. on an average day, \nindividuals spent 35 minutes socializing and communicating and 34 minutes playing games and \nusing a computer for leisure. they spent twice as much time socializing and communicating on \nweekend days (56 minutes) than on weekdays (26 minutes). (see tables 1, 11a, and 11b.) ",
+      "time_values": [
+        "5.1"
+      ]
+    },
+    {
+      "page": 2,
+      "activity_match": "such as watching tv, socializing, or exercising on an average day. while men and women were",
+      "context": "leisure and sports activities in 2024 \n \n\u2022 nearly everyone age 15 and over (94 percent) engaged in some sort of leisure and sport activity, \nsuch as watching tv, socializing, or exercising on an average day. while men and women were \nequally likely to engage in leisure and sports activities, men spent more time in these activities than \ndid women (5.5 hours, compared with 4.7 hours). (see table 1.) \n ",
+      "time_values": [
+        "5.5",
+        "4.7"
+      ]
+    },
+    {
+      "page": 2,
+      "activity_match": "\u2022 socializing and communicating, along with playing games and computer use for leisure, occupied",
+      "context": "\u2022 watching tv was the leisure and sports activity that occupied the most time (2.6 hours per day), \naccounting for over half of all leisure time, on average (5.1 hours per day). (see tables 1 and 11a.) \n \n\u2022 socializing and communicating, along with playing games and computer use for leisure, occupied \nthe most amount of time spent in leisure and sports activities after watching tv. on an average day, \nindividuals spent 35 minutes socializing and communicating and 34 minutes playing games and \nusing a computer for leisure. they spent twice as much time socializing and communicating on ",
+      "time_values": [
+        "2.6",
+        "5.1"
+      ]
+    },
+    {
+      "page": 3,
+      "activity_match": "\u2022 employed adults living in households with no children under age 18 engaged in leisure and sports",
+      "context": "games or using a computer for leisure on an average day, while those ages 75 and over spent 26 \nminutes doing so. (see table 11a.) \n \n\u2022 employed adults living in households with no children under age 18 engaged in leisure and sports \nactivities for 4.5 hours per day, an hour and a half more than did employed adults living with a child \nunder age 6 (3.0 hours). (see table 8b.) \n ",
+      "time_values": [
+        "4.5",
+        "3.0"
+      ]
+    },
+    {
+      "page": 3,
+      "activity_match": "with children under age 13 was most commonly provided while doing leisure activities (1.8 hours)",
+      "context": "\u2022 adults living in households with at least one child under age 13 spent an average of 5.2 hours per \nday providing secondary childcare\u2014that is, they had at least one child in their care while doing \nactivities other than primary childcare. secondary childcare provided by adults living in households \nwith children under age 13 was most commonly provided while doing leisure activities (1.8 hours) \nor household activities (1.2 hours). (see table 10.) \n \n\u2022 adults living in households with children under age 6 spent about the same amount of time ",
+      "time_values": [
+        "5.2",
+        "1.8",
+        "1.2"
+      ]
+    }
+  ],
+  "demographics": [
+    {
+      "page": 1,
+      "pattern": "\\d+\\s*and\\s*over"
+    },
+    {
+      "page": 2,
+      "pattern": "men.*women"
+    },
+    {
+      "page": 2,
+      "pattern": "age\\s+group"
+    },
+    {
+      "page": 2,
+      "pattern": "\\d+\\s*and\\s*over"
+    },
+    {
+      "page": 3,
+      "pattern": "by\\s+age"
+    },
+    {
+      "page": 3,
+      "pattern": "\\d+\\s*and\\s*over"
+    },
+    {
+      "page": 4,
+      "pattern": "\\d+\\s*and\\s*over"
+    },
+    {
+      "page": 5,
+      "pattern": "\\d+\\s*and\\s*over"
+    },
+    {
+      "page": 9,
+      "pattern": "by\\s+sex"
+    },
+    {
+      "page": 11,
+      "pattern": "by\\s+age"
+    },
+    {
+      "page": 11,
+      "pattern": "\\d+[-\\s]to[-\\s]\\d+\\s*years?"
+    },
+    {
+      "page": 12,
+      "pattern": "by\\s+age"
+    },
+    {
+      "page": 20,
+      "pattern": "by\\s+sex"
+    },
+    {
+      "page": 21,
+      "pattern": "by\\s+sex"
+    },
+    {
+      "page": 22,
+      "pattern": "\\d+[-\\s]to[-\\s]\\d+\\s*years?"
+    },
+    {
+      "page": 23,
+      "pattern": "\\d+[-\\s]to[-\\s]\\d+\\s*years?"
+    },
+    {
+      "page": 24,
+      "pattern": "\\d+[-\\s]to[-\\s]\\d+\\s*years?"
+    },
+    {
+      "page": 25,
+      "pattern": "\\d+[-\\s]to[-\\s]\\d+\\s*years?"
+    }
+  ]
+}

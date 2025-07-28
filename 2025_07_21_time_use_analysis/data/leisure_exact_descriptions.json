@@ -1,0 +1,31 @@
+{
+  "metadata": {
+    "source": "American Time Use Survey 2024",
+    "extraction_method": "PDF parsing with exact descriptions",
+    "focus": "TV watching and leisure subcategories"
+  },
+  "key_findings": {
+    "tv_watching": 2.6,
+    "socializing": 35,
+    "men_leisure": 5.5,
+    "women_leisure": 4.7
+  },
+  "activity_descriptions": {
+    "120307": "Watching television: This code is used when a respondent reports watching TV, which can include broadcast, cable, or satellite programs, as well as movies watched on a television set.",
+    "120303": "Playing games: This code is used for all types of games, including board games (like chess), card games, and puzzles. It is important to note that this code is also used for video games and computer games.",
+    "120308": "Computer use for leisure (excluding games): This is the key category for most modern digital leisure. It includes browsing the internet, using social media, and other computer-based activities that are not game-playing.",
+    "1201": "Socializing and Communicating: This includes a range of activities",
+    "120101": "Socializing and communicating with others: This is the most common code, used for face-to-face conversations, talking with family and friends, and general social interaction. Hosting or attending parties and other social events."
+  },
+  "leisure_breakdown": {
+    "Screen Time": {},
+    "Social Activities": {},
+    "Quiet Leisure": {},
+    "Active Leisure": {}
+  },
+  "demographic_patterns": {
+    "by_age": {},
+    "by_gender": {},
+    "combined": {}
+  }
+}

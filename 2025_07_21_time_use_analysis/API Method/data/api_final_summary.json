@@ -1,0 +1,49 @@
+{
+  "api_data": {
+    "total_leisure": {
+      "name": "Leisure and sports (includes travel)",
+      "hours": 5.07,
+      "minutes": 304.20000000000005
+    },
+    "watching_tv": {
+      "name": "Watching TV",
+      "hours": 2.6,
+      "minutes": 156.0
+    },
+    "gaming_computer": {
+      "name": "Playing games and computer use for leisure",
+      "hours": 0.62,
+      "minutes": 37.2
+    },
+    "socializing": {
+      "name": "Socializing and communicating",
+      "hours": 0.59,
+      "minutes": 35.4
+    },
+    "reading": {
+      "name": "Reading for personal interest",
+      "hours": 0.28,
+      "minutes": 16.8
+    },
+    "household": {
+      "name": "Household activities",
+      "hours": 2.01,
+      "minutes": 120.6
+    },
+    "food_prep": {
+      "name": "Food preparation and cleanup",
+      "hours": 0.67,
+      "minutes": 40.2
+    },
+    "housework": {
+      "name": "Housework",
+      "hours": 0.62,
+      "minutes": 37.2
+    }
+  },
+  "notes": {
+    "gaming_computer": "Playing games and computer use (37.2 min/day) available via API series TUU10101AA01016300",
+    "activity_codes": "API uses different codes (6100, 6300) than documentation suggests (120303, 120308)",
+    "api_success": "Gaming data IS available through API, closely matching PDF report (37.2 vs 34 minutes)"
+  }
+}

@@ -1,0 +1,24 @@
+# Output files
+*.png
+*.jpg
+*.pdf
+
+# R default graphics output (unwanted)
+Rplots.pdf
+
+# R files
+.Rhistory
+.RData
+.Rproj.user/
+*.Rproj
+
+# Environment files
+.env
+.Renviron
+
+# Mac files
+.DS_Store
+
+# Temporary files
+*~
+*.tmp.cache/

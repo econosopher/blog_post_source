@@ -1,0 +1,36 @@
+{
+  "All ages": {
+    "watching_tv": {
+      "hours": 2.6,
+      "minutes": 156.0,
+      "series_id": "TUU10101AA01014236",
+      "title": "Avg hrs per day - Watching TV"
+    },
+    "playing_games": {
+      "hours": 0.37,
+      "minutes": 22.2,
+      "series_id": "TUU10101AA01005910",
+      "title": "Avg hrs per day - Playing games"
+    },
+    "computer_excl_games": {
+      "hours": 0.2,
+      "minutes": 12.0,
+      "series_id": "TUU10101AA01006114",
+      "title": "Avg hrs per day - Computer use for leisure, excluding games"
+    },
+    "total_leisure": {
+      "hours": 5.07,
+      "minutes": 304.2,
+      "series_id": "TUU10101AA01013585",
+      "title": "Avg hrs per day - Leisure and sports (includes travel)"
+    }
+  },
+  "15-24": {
+    "computer_excl_games": {
+      "hours": 0.26,
+      "minutes": 15.6,
+      "series_id": "TUU10101AA01021432",
+      "title": "Avg hrs per day - Computer use for leisure, excluding games, 15-24 yrs"
+    }
+  }
+}

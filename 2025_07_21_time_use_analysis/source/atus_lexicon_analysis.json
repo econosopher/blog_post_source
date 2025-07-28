@@ -1,0 +1,51 @@
+{
+  "sheets": [
+    "Cover page",
+    "ATUS 2024 Lexicon"
+  ],
+  "leisure_code_counts": {
+    "gaming": 4,
+    "computer": 2,
+    "tv": 4,
+    "socializing": 8,
+    "leisure_general": 9
+  },
+  "sample_gaming_codes": [
+    {
+      "Unnamed: 2": "playing games w/hh child only",
+      "Unnamed: 3": "entertaining hh child"
+    },
+    {
+      "Unnamed: 2": "playing games w/nonhh child only",
+      "Unnamed: 3": "entertaining nonhh child"
+    },
+    {
+      "ATUS 2024 Activity coding lexicons": "120307",
+      "Unnamed: 1": "Playing games"
+    }
+  ],
+  "sample_computer_codes": [
+    {
+      "ATUS 2024 Activity coding lexicons": "120308",
+      "Unnamed: 1": "Computer use for leisure (exc. Games)"
+    },
+    {
+      "Unnamed: 2": "computer use, unspecified",
+      "Unnamed: 3": "computer use, leisure (personal interest)"
+    }
+  ],
+  "sample_tv_codes": [
+    {
+      "ATUS 2024 Activity coding lexicons": "120303",
+      "Unnamed: 1": "Television and movies (not religious)"
+    },
+    {
+      "Unnamed: 2": "watching TV or a DVD/video/instructional video",
+      "Unnamed: 3": "watching home movies/home videos"
+    },
+    {
+      "Unnamed: 2": "watching videos on YouTube",
+      "Unnamed: 3": "watching TV/DVDs on computer (personal interest)"
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+[
+  {
+    "page": 1,
+    "has_gaming": false,
+    "has_tv": false,
+    "has_social": false,
+    "table_sample": [
+      [
+        "These and other results from the American Time Use Survey (ATUS) were released today. They include",
+        null
+      ],
+      [
+        "the average amount of time per day in 2024 that individuals worked, did household activities, and",
+        null
+      ],
+      [
+        "engaged in leisure and sports activities. Additionally, measures of the average time per day spent",
+        null
+      ]
+    ]
+  },
+  {
+    "page": 2,
+    "has_gaming": true,
+    "has_tv": true,
+    "has_social": false,
+    "table_sample": [
+      [
+        "bachelor\u2019s degree or higher performed some work at home on days worked, compared with 18",
+        null
+      ],
+      [
+        "percent of those with a high school diploma and no college. (See table 6.)",
+        null
+      ],
+      [
+        "",
+        null
+      ]
+    ]
+  },
+  {
+    "page": 2,
+    "has_gaming": true,
+    "has_tv": true,
+    "has_social": false,
+    "table_sample": [
+      [
+        "\u2022 More people engaged in housework on weekend days than on weekdays, on average\u201441 percent,",
+        null
+      ],
+      [
+        "compared with 36 percent. However, people were slightly more likely to do food preparation and",
+        null
+      ],
+      [
+        "cleanup on weekdays than weekend days\u201464 percent, compared to 62 percent. (See table 2.)",
+        null
+      ]
+    ]
+  }
+]

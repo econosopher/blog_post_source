@@ -1,0 +1,42 @@
+{
+  "visualization_data": {
+    "total_leisure": {
+      "value": 5.07,
+      "title": "Avg hrs per day - Leisure and sports (includes travel)"
+    },
+    "watching_tv": {
+      "value": 2.6,
+      "title": "Avg hrs per day - Watching TV"
+    },
+    "computer_excl_games": {
+      "value": 0.16,
+      "title": "Avg hrs per day - Computer use for leisure, excluding games, 55-64 yrs, Women",
+      "note": "avg of demographics"
+    }
+  },
+  "all_playing_games_series": [],
+  "all_computer_use_series": [],
+  "all_computer_excl_games_series": [
+    {
+      "series_id": "TUU10101AA01006301",
+      "title": "Avg hrs per day - Computer use for leisure, excluding games, 55-64 yrs, Women",
+      "value": 0.16
+    },
+    {
+      "series_id": "TUU10101AA01006302",
+      "title": "Avg hrs per day - Computer use for leisure, excluding games, 65 yrs and over, Women",
+      "value": 0.15
+    },
+    {
+      "series_id": "TUU10101AA01006303",
+      "title": "Avg hrs per day - Computer use for leisure, excluding games, Weekend days and holidays, 65 yrs and over, Women",
+      "value": 0.11
+    },
+    {
+      "series_id": "TUU10101AA01006304",
+      "title": "Avg hrs per day - Computer use for leisure, excluding games, Nonholiday weekdays, 65 yrs and over, Women",
+      "value": 0.16
+    }
+  ],
+  "data_source": "BLS API"
+}

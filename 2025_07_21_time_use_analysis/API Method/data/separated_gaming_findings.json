@@ -1,0 +1,66 @@
+{
+  "separate_series_found": true,
+  "series_ids": {
+    "playing_games": {
+      "series_id": "TUU10101AA01005910",
+      "description": "Avg hrs per day - Playing games (All persons)"
+    },
+    "watching_tv": {
+      "series_id": "TUU10101AA01014236",
+      "description": "Avg hrs per day - Watching TV (All persons)"
+    },
+    "computer_excl_games": {
+      "series_id": "TUU10101AA01006114",
+      "description": "Avg hrs per day - Computer use for leisure, excluding games (All persons)"
+    },
+    "computer_excl_games_15_24": {
+      "series_id": "TUU10101AA01021432",
+      "description": "Avg hrs per day - Computer use for leisure, excluding games (15-24 yrs)"
+    }
+  },
+  "values_2024": {
+    "playing_games": {
+      "hours": 0.37,
+      "minutes": 22.2,
+      "description": "Avg hrs per day - Playing games (All persons)"
+    },
+    "watching_tv": {
+      "hours": 2.6,
+      "minutes": 156.0,
+      "description": "Avg hrs per day - Watching TV (All persons)"
+    },
+    "computer_excl_games": {
+      "hours": 0.2,
+      "minutes": 12.0,
+      "description": "Avg hrs per day - Computer use for leisure, excluding games (All persons)"
+    },
+    "computer_excl_games_15_24": {
+      "hours": 0.26,
+      "minutes": 15.600000000000001,
+      "description": "Avg hrs per day - Computer use for leisure, excluding games (15-24 yrs)"
+    }
+  },
+  "age_specific_attempts": {
+    "TUU10101AA01021432": {
+      "value": 0.26,
+      "description": "Computer use (excl games) - 15 to 24 years",
+      "title": "Avg hrs per day - Computer use for leisure, excluding games, 15-24 yrs"
+    },
+    "TUU10101AA01021434": {
+      "value": 0.21,
+      "description": "Watching TV - 15 to 24 years",
+      "title": "Avg hrs per day - Computer use for leisure, excluding games, Nonholiday weekdays, 15-24 yrs"
+    },
+    "TUU10101AA01021462": {
+      "value": 0.13,
+      "description": "Computer use (excl games) - 45 to 54 years",
+      "title": "Avg hrs per day - Computer use for leisure, excluding games, Weekend days and holidays, Employed part time, Men"
+    },
+    "TUU10101AA01021464": {
+      "value": 0.2,
+      "description": "Watching TV - 45 to 54 years",
+      "title": "Avg hrs per day - Computer use for leisure, excluding games, 18 yrs and over, Men"
+    }
+  },
+  "key_discovery": "Gaming and computer use ARE available as separate series in the API"
+}
