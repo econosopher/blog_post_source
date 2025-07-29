@@ -132,18 +132,18 @@ combined_data <- combined_data %>%
   mutate(
     source = case_when(
       publisher == "Scopely" ~ case_when(
-        game_name == "MONOPOLY GO!" ~ "First Party",
+        game_name == "MONOPOLY GO!" ~ "1st Party",
         game_name == "MARVEL Strike Force: Squad RPG" ~ "Acquisition",
-        game_name == "Star Trek™ Fleet Command" ~ "Second Party",
+        game_name == "Star Trek™ Fleet Command" ~ "2nd Party Acquisition",
         game_name == "Stumble Guys" ~ "Acquisition",
-        game_name == "Yahtzee® with Buddies Dice" ~ "First Party",
+        game_name == "Yahtzee® with Buddies Dice" ~ "1st Party",
         game_name == "Tiki Solitaire TriPeaks" ~ "Acquisition",
-        game_name == "Scrabble GO-Classic Word Game" ~ "First Party",
-        game_name == "WWE Champions" ~ "Second Party",
-        game_name == "Looney Tunes™ World of Mayhem" ~ "Second Party",
-        game_name == "Wheel of Fortune: Show Puzzles" ~ "First Party",
+        game_name == "Scrabble GO-Classic Word Game" ~ "1st Party",
+        game_name == "WWE Champions" ~ "2nd Party",
+        game_name == "Looney Tunes™ World of Mayhem" ~ "2nd Party",
+        game_name == "Wheel of Fortune: Show Puzzles" ~ "1st Party",
         game_name == "GSN Casino: Slot Machine Games" ~ "Acquisition",
-        game_name == "Dice With Buddies: Social Game" ~ "First Party",
+        game_name == "Dice With Buddies: Social Game" ~ "1st Party",
         game_name == "Garden Joy: Design Game" ~ "Investment Publishing",
         TRUE ~ ""
       ),
@@ -278,19 +278,18 @@ final_table <- table_data %>%
     label = "Downloads (YTD)",
     columns = c(downloads_2025, downloads_2024, downloads_2023, downloads_growth_24_25)
   ) %>%
-  # Styling
+  # Style the grand total row
   tab_style(
     style = list(
-      cell_text(weight = "bold", size = px(16)),
-      cell_fill(color = "#E0E0E0")
+      cell_text(weight = "bold", size = px(13)),
+      cell_fill(color = "#e8e8e8"),
+      cell_borders(
+        sides = c("top", "bottom"),
+        color = "#1a1a1a",
+        weight = px(2)
+      )
     ),
     locations = cells_body(rows = 1)
-  ) %>%
-  tab_style(
-    style = list(
-      cell_fill(color = "#F5F5F5")
-    ),
-    locations = cells_body(rows = seq(2, nrow(table_data)))
   ) %>%
   # Color code growth
   data_color(
@@ -312,12 +311,53 @@ final_table <- table_data %>%
     footnote = "Launched September 2023", 
     locations = cells_body(columns = game_name, rows = game_name == "Monster Hunter Now")
   ) %>%
-  # Options
+  # Apply GEC theme
+  opt_table_font(
+    font = list(
+      google_font(name = "Inter"),
+      default_fonts()
+    )
+  ) %>%
   tab_options(
-    table.font.size = px(12),
-    heading.title.font.size = px(20),
-    heading.subtitle.font.size = px(16),
-    column_labels.font.weight = "bold"
+    # Table styling
+    table.background.color = "#FFFFFF",
+    table.border.top.style = "solid",
+    table.border.top.width = px(3),
+    table.border.top.color = "#1a1a1a",
+    table.border.bottom.style = "solid",
+    table.border.bottom.width = px(3),
+    table.border.bottom.color = "#1a1a1a",
+    # Header styling
+    heading.background.color = "#FFFFFF",
+    heading.title.font.size = px(24),
+    heading.title.font.weight = "bold",
+    heading.subtitle.font.size = px(14),
+    heading.subtitle.font.weight = "normal",
+    heading.border.bottom.style = "solid",
+    heading.border.bottom.width = px(2),
+    heading.border.bottom.color = "#1a1a1a",
+    # Column labels
+    column_labels.background.color = "#f5f5f5",
+    column_labels.font.weight = "bold",
+    column_labels.font.size = px(12),
+    column_labels.border.top.style = "solid",
+    column_labels.border.top.width = px(2),
+    column_labels.border.top.color = "#1a1a1a",
+    column_labels.border.bottom.style = "solid",
+    column_labels.border.bottom.width = px(1),
+    column_labels.border.bottom.color = "#d0d0d0",
+    # Row striping
+    row.striping.include_table_body = TRUE,
+    row.striping.background_color = "#fafafa",
+    # Data cells
+    table.font.size = px(11),
+    data_row.padding = px(6),
+    # Source notes
+    source_notes.font.size = px(10),
+    source_notes.background.color = "#f5f5f5",
+    # Footnotes
+    footnotes.font.size = px(10),
+    footnotes.background.color = "#f5f5f5"
   )
 
 # Save the table
