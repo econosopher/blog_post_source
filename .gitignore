@@ -66,6 +66,7 @@ venv.bak/
 *.swp
 *.swo
 *~
+*.code-workspace
 
 # Logs
 *.log
@@ -101,3 +102,9 @@ venv.bak/
 
 # CSV files
 *.csv
+# Allow battlefield combined metrics
+!2025_08_01_battlefield/validation/battlefield_combined_metrics.csv
+
+# Claude-specific files
+CLAUDE.md
+.claude/
