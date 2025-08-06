@@ -193,7 +193,7 @@ gt_table <- table_data %>%
   
   # Header
   tab_header(
-    title = "Top Monthly RPG Games (US Market)",
+    title = "Monthly Squad RPG Report (July, US)",
     subtitle = "30-day period: July 5 - August 3, 2025 | All metrics are US market only | Δ = rank change vs prior 30-day period"
   ) %>%
   
