@@ -116,6 +116,9 @@ table_data <- rpg_data %>%
     # Top monetizing country (with better label)
     top_monetizing_geo = `entities.custom_tags.Most Popular Country by Revenue`,
     
+    # Lifetime revenue (US market)
+    lifetime_revenue = revenue_alltime_us / 100,
+    
     # Retention funnel with D60
     retention_d1 = retention_1d_us,
     retention_d7 = retention_7d_us,
@@ -128,7 +131,15 @@ table_data <- rpg_data %>%
   # Join with previous month ranks
   left_join(prev_ranks, by = "name_normalized") %>%
   mutate(
-    # Check if game was released during the analysis period
+    # Check if game was released in 2025 (for highlighting)
+    is_2025_release = case_when(
+      !is.na(release_date_us) & year(release_date_us) == 2025 ~ TRUE,
+      !is.na(release_date_jp) & year(release_date_jp) == 2025 ~ TRUE,
+      !is.na(release_date_ww) & year(release_date_ww) == 2025 ~ TRUE,
+      TRUE ~ FALSE
+    ),
+    
+    # Check if game was released during the analysis period (for NEW label)
     is_new_release = case_when(
       !is.na(release_date_us) & release_date_us >= as.Date("2025-07-05") & release_date_us <= as.Date("2025-08-03") ~ TRUE,
       !is.na(release_date_jp) & release_date_jp >= as.Date("2025-07-05") & release_date_jp <= as.Date("2025-08-03") ~ TRUE,
@@ -157,8 +168,10 @@ table_data <- table_data %>%
     rank,  # Rank moved next to game name, before revenue
     rank_change,  # Rank change next to rank
     is_new_release,
+    is_2025_release,  # For highlighting
     revenue_30d,
     run_rate,  # Keep run rate next to revenue
+    lifetime_revenue,  # Added lifetime revenue
     downloads_30d,  # Move downloads next to MAU
     mau_us,
     arpmau,
@@ -182,14 +195,14 @@ gt_table <- table_data %>%
   
   # Header
   tab_header(
-    title = "Top RPG Games by Revenue (US Market)",
-    subtitle = "30-day period: July 5 - August 3, 2025 | All metrics are US market only | Δ = rank change vs last month"
+    title = "Top Monthly RPG Games (US Market)",
+    subtitle = "30-day period: July 5 - August 3, 2025 | All metrics are US market only | Δ = rank change vs prior 30-day period"
   ) %>%
   
   # Add spanner columns for logical grouping
   tab_spanner(
     label = "Revenue Metrics",
-    columns = c(revenue_30d, run_rate)
+    columns = c(revenue_30d, run_rate, lifetime_revenue)
   ) %>%
   tab_spanner(
     label = "Users",
@@ -218,6 +231,7 @@ gt_table <- table_data %>%
     age_months = "AGE",
     revenue_30d = "REVENUE",
     run_rate = "ANNUAL RUN RATE",
+    lifetime_revenue = "LIFETIME",
     downloads_30d = "DOWNLOADS",
     mau_us = "MAU",
     arpmau = "ARPMAU",
@@ -228,12 +242,12 @@ gt_table <- table_data %>%
     retention_d60 = "D60"
   ) %>%
   
-  # Hide the is_new_release helper column
-  cols_hide(columns = is_new_release) %>%
+  # Hide the helper columns
+  cols_hide(columns = c(is_new_release, is_2025_release)) %>%
   
   # Format revenue with suffix
   fmt_currency(
-    columns = c(revenue_30d, run_rate),
+    columns = c(revenue_30d, run_rate, lifetime_revenue),
     currency = "USD",
     decimals = 1,
     suffixing = TRUE
@@ -273,6 +287,96 @@ gt_table <- table_data %>%
     columns = age_months,
     decimals = 0,
     pattern = "{x}m"
+  ) %>%
+  
+  # Format gender with symbols (♂ for male, ♀ for female)
+  text_transform(
+    locations = cells_body(columns = gender_split),
+    fn = function(x) {
+      sapply(x, function(val) {
+        if (is.na(val) || val == "") {
+          return("–")
+        }
+        # Parse the percentage (remove % sign)
+        male_pct <- as.numeric(gsub("%", "", val))
+        if (is.na(male_pct)) {
+          return("–")
+        }
+        # Create visual representation with symbols
+        if (male_pct >= 60) {
+          # Male dominated
+          html(paste0("<span style='color:#1976D2;font-weight:bold'>♂ ", val, "</span>"))
+        } else if (male_pct <= 40) {
+          # Female dominated
+          female_pct <- 100 - male_pct
+          html(paste0("<span style='color:#E91E63;font-weight:bold'>♀ ", female_pct, "%</span>"))
+        } else {
+          # Balanced
+          html(paste0("<span style='color:#666;'>♂ ", val, "</span>"))
+        }
+      })
+    }
+  ) %>%
+  
+  # Format top geo with symbols and styling
+  text_transform(
+    locations = cells_body(columns = top_monetizing_geo),
+    fn = function(x) {
+      sapply(x, function(val) {
+        if (is.na(val) || val == "") {
+          return("–")
+        }
+        # Color code and style based on region
+        # US = Blue, Asia = Red, Europe = Green, Others = Gray
+        geo_colors <- list(
+          "US" = "#1976D2",         # Blue for US
+          "JP" = "#D32F2F",          # Red for Japan 
+          "Japan" = "#D32F2F",       # Red for Japan
+          "CN" = "#D32F2F",          # Red for China
+          "KR" = "#D32F2F",          # Red for Korea
+          "TW" = "#D32F2F",          # Red for Taiwan
+          "HK" = "#D32F2F",          # Red for Hong Kong
+          "SG" = "#D32F2F",          # Red for Singapore
+          "TH" = "#D32F2F",          # Red for Thailand
+          "ID" = "#D32F2F",          # Red for Indonesia
+          "PH" = "#D32F2F",          # Red for Philippines
+          "MY" = "#D32F2F",          # Red for Malaysia
+          "VN" = "#D32F2F",          # Red for Vietnam
+          "IN" = "#D32F2F",          # Red for India
+          "GB" = "#2E7D32",          # Green for UK
+          "DE" = "#2E7D32",          # Green for Germany
+          "FR" = "#2E7D32",          # Green for France
+          "IT" = "#2E7D32",          # Green for Italy
+          "ES" = "#2E7D32",          # Green for Spain
+          "NL" = "#2E7D32",          # Green for Netherlands
+          "SE" = "#2E7D32",          # Green for Sweden
+          "PL" = "#2E7D32",          # Green for Poland
+          "RU" = "#2E7D32",          # Green for Russia
+          "TR" = "#2E7D32",          # Green for Turkey
+          "CA" = "#1976D2",          # Blue for Canada (Americas)
+          "BR" = "#795548",          # Brown for Brazil
+          "MX" = "#795548",          # Brown for Mexico
+          "AR" = "#795548",          # Brown for Argentina
+          "CL" = "#795548",          # Brown for Chile
+          "AU" = "#FF6F00",          # Orange for Australia
+          "SA" = "#9C27B0",          # Purple for Saudi Arabia
+          "AE" = "#9C27B0"           # Purple for UAE
+        )
+        
+        # Convert Japan to JP for consistency
+        display_val <- if (val == "Japan") "JP" else val
+        
+        # Get color for this geo
+        color <- if (val %in% names(geo_colors)) geo_colors[[val]] else "#666"
+        
+        # Add globe symbol and style the text
+        html(paste0(
+          "<span style='font-weight:bold;color:", color, ";'>",
+          "● ", display_val,
+          "</span>"
+        ))
+      })
+    }
   ) %>%
   
   # Format rank change with arrows (or NEW for new releases)
@@ -346,6 +450,17 @@ gt_table <- table_data %>%
     )
   ) %>%
   
+  # Highlight 2025 releases with light blue background
+  tab_style(
+    style = list(
+      cell_fill(color = "#E3F2FD"),  # Light blue background
+      cell_text(weight = "bold")
+    ),
+    locations = cells_body(
+      columns = game_name,
+      rows = which(table_data$is_2025_release)
+    )
+  ) %>%
   
   # Add source note
   tab_source_note(
