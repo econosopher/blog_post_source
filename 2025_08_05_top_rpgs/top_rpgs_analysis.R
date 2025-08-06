@@ -91,7 +91,6 @@ table_data <- rpg_data %>%
     game_name = unified_app_name,
     
     # Revenue rank (this is US rank) - move to demographics
-    revenue_us_rank = rank,
     
     # Demographics - including US rank
     gender_split = `entities.custom_tags.Genders (Last Quarter, US)`,
@@ -181,7 +180,6 @@ table_data <- table_data %>%
     retention_d30,
     retention_d60,
     # Demographics moved after retention
-    revenue_us_rank,
     gender_split,
     age_months
   )
@@ -218,14 +216,13 @@ gt_table <- table_data %>%
   ) %>%
   tab_spanner(
     label = "Demographics",
-    columns = c(revenue_us_rank, gender_split, age_months)
+    columns = c(gender_split, age_months)
   ) %>%
   
   # Column labels
   cols_label(
     game_name = "GAME",
     rank = "#",  # Changed label for rank
-    revenue_us_rank = "US RANK",
     rank_change = "Δ",
     gender_split = "GENDER",
     age_months = "AGE",
@@ -297,9 +294,13 @@ gt_table <- table_data %>%
         if (is.na(val) || val == "") {
           return("–")
         }
-        # Parse the percentage (remove % sign)
-        male_pct <- as.numeric(gsub("%", "", val))
-        if (is.na(male_pct)) {
+        # Parse the percentage and gender
+        if (grepl("Male", val)) {
+          male_pct <- as.numeric(gsub("% Male.*", "", val))
+        } else if (grepl("Female", val)) {
+          female_pct <- as.numeric(gsub("% Female.*", "", val))
+          male_pct <- 100 - female_pct
+        } else {
           return("–")
         }
         # Create visual representation with symbols
@@ -480,7 +481,6 @@ gt_table <- table_data %>%
     game_name ~ px(200),
     rank ~ px(65),  # Increased to prevent collision
     rank_change ~ px(50),
-    revenue_us_rank ~ px(60),
     gender_split ~ px(90),  # Increased from 70 to 90
     age_months ~ px(40),
     revenue_30d ~ px(80),
