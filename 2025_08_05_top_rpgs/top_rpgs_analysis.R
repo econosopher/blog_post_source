@@ -306,14 +306,14 @@ gt_table <- table_data %>%
         # Create visual representation with symbols
         if (male_pct >= 60) {
           # Male dominated
-          html(paste0("<span style='color:#1976D2;font-weight:bold'>♂ ", val, "</span>"))
+          html(paste0("<span style='color:#1976D2;font-weight:bold'>♂ ", male_pct, "%</span>"))
         } else if (male_pct <= 40) {
           # Female dominated
           female_pct <- 100 - male_pct
           html(paste0("<span style='color:#E91E63;font-weight:bold'>♀ ", female_pct, "%</span>"))
         } else {
           # Balanced
-          html(paste0("<span style='color:#666;'>♂ ", val, "</span>"))
+          html(paste0("<span style='color:#666;'>♂ ", male_pct, "%</span>"))
         }
       })
     }
@@ -481,7 +481,7 @@ gt_table <- table_data %>%
     game_name ~ px(200),
     rank ~ px(65),  # Increased to prevent collision
     rank_change ~ px(50),
-    gender_split ~ px(90),  # Increased from 70 to 90
+    gender_split ~ px(60),  # Reduced since we're only showing symbol + %
     age_months ~ px(40),
     revenue_30d ~ px(80),
     downloads_30d ~ px(90),
