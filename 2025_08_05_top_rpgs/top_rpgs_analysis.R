@@ -465,7 +465,7 @@ gt_table <- table_data %>%
   
   # Add source note
   tab_source_note(
-    source_note = md("**Source:** Sensor Tower Store Intelligence | **Note:** Revenue figures are US market 30-day estimates. ARPMAU = Average Revenue Per Monthly Active User. MOM% = Month-over-Month change.")
+    source_note = md("**Source:** Sensor Tower Store Intelligence | **Note:** Revenue figures are US market 30-day estimates (July 5 - Aug 3). MAU reflects July 2025 monthly active users. ARPMAU = Average Revenue Per Monthly Active User. Δ = Rank change vs prior 30-day period.")
   ) %>%
   
   # Table options (following publisher table exactly)
