@@ -106,8 +106,8 @@ table_data <- rpg_data %>%
     run_rate = revenue_30d * 12,
     
     
-    # MAU as separate column
-    mau_us = `entities.custom_tags.Last Month Average MAU (US)`,
+    # MAU as separate column (use mau_month_us which is the correct field)
+    mau_us = mau_month_us,
     
     # ARPMAU calculation
     arpmau = if_else(mau_us > 0, revenue_30d / mau_us, NA_real_),
