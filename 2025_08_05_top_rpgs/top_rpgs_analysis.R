@@ -117,7 +117,7 @@ table_data <- rpg_data %>%
     top_monetizing_geo = `entities.custom_tags.Most Popular Country by Revenue`,
     
     # Lifetime revenue (US market)
-    lifetime_revenue = revenue_alltime_us / 100,
+    lifetime_revenue = `entities.custom_tags.All Time Revenue (US)`,
     
     # Retention funnel with D60
     retention_d1 = retention_1d_us,
