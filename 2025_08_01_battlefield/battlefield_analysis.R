@@ -140,7 +140,7 @@ yoy_table <- final_table_data %>%
     locations = cells_row_groups()
   ) %>%
   # Apply GEC theme
-  theme_gec_gt() %>%
+  theme_gec_gt(weight_strategy = "light", line_thickness = "regular") %>%
   tab_source_note(
     source_note = paste0("Data source: Video Game Insights API | API calls: ", 
                         yoy_comparison$api_calls)
