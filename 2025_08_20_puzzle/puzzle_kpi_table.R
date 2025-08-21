@@ -100,10 +100,10 @@ if (is.null(top_apps) || nrow(top_apps) == 0) {
 message(glue("\nFound {nrow(top_apps)} apps"))
 message("Available fields: ", paste(names(top_apps), collapse = ", "))
 
-# Calculate previous period ranks if available
+# Calculate previous period ranks if available - also sort by DAU
 if (!is.null(prev_apps)) {
   prev_ranks <- prev_apps %>%
-    arrange(desc(dau_30d_us)) %>%
+    arrange(desc(dau_30d_us)) %>%  # Sort by DAU for consistent ranking
     mutate(
       prev_rank = row_number(),
       name_normalized = toupper(str_replace_all(unified_app_name, "[^A-Za-z0-9]", ""))
@@ -116,8 +116,9 @@ if (!is.null(prev_apps)) {
   prev_ranks <- NULL
 }
 
-# Select and process the data - already sorted by DAU from API
+# Select and process the data - need to sort by DAU
 kpi_data <- top_apps %>%
+  arrange(desc(dau_30d_us)) %>%  # Sort by DAU descending
   mutate(
     rank = row_number(),
     name_normalized = toupper(str_replace_all(unified_app_name, "[^A-Za-z0-9]", "")),
