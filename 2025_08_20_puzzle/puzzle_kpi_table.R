@@ -100,7 +100,7 @@ if (is.null(top_apps) || nrow(top_apps) == 0) {
 message(glue("\nFound {nrow(top_apps)} apps"))
 message("Available fields: ", paste(names(top_apps), collapse = ", "))
 
-# Calculate previous period ranks if available - also sort by DAU
+# Calculate previous period ranks and metrics if available - also sort by DAU
 if (!is.null(prev_apps)) {
   prev_ranks <- prev_apps %>%
     arrange(desc(dau_30d_us)) %>%  # Sort by DAU for consistent ranking
@@ -111,7 +111,10 @@ if (!is.null(prev_apps)) {
     group_by(name_normalized) %>%
     slice_min(prev_rank, n = 1) %>%
     ungroup() %>%
-    select(name_normalized, prev_rank)
+    select(name_normalized, prev_rank, 
+           prev_dau = dau_30d_us, 
+           prev_mau = mau_month_us,
+           prev_downloads = entities.units_absolute)
 } else {
   prev_ranks <- NULL
 }
@@ -123,20 +126,26 @@ kpi_data <- top_apps %>%
     rank = row_number(),
     name_normalized = toupper(str_replace_all(unified_app_name, "[^A-Za-z0-9]", "")),
     
-    # Calculate active rate (DAU/MAU)
-    active_rate = dau_30d_us / mau_month_us,
+    # Calculate DAU/MAU ratio
+    dau_mau_ratio = dau_30d_us / mau_month_us,
     
-    # Get downloads - prefer US metrics
+    # Get downloads - 30 day period
     downloads_30d = if ("downloads_30d_us" %in% names(top_apps)) downloads_30d_us 
                     else if ("entities.units_absolute" %in% names(top_apps)) entities.units_absolute 
                     else NA_real_,
     
-    # Calculate DAU growth if we have comparison data
-    dau_growth = if ("entities.comparison.dau_30d_us.delta_percentage" %in% names(top_apps)) 
-      entities.comparison.dau_30d_us.delta_percentage else NA_real_
+    # Get downloads delta from API (absolute change)
+    downloads_delta = if ("entities.units_delta" %in% names(top_apps)) 
+                      entities.units_delta
+                      else NA_real_,
+    
+    # Get comparison value for calculating percentage
+    downloads_comparison = if ("entities.comparison_units_value" %in% names(top_apps))
+                           entities.comparison_units_value
+                           else NA_real_
   )
 
-# Join with previous ranks if available
+# Join with previous ranks if available and calculate growth
 if (!is.null(prev_ranks)) {
   kpi_data <- kpi_data %>%
     left_join(prev_ranks, by = "name_normalized") %>%
@@ -145,11 +154,25 @@ if (!is.null(prev_ranks)) {
         is.na(prev_rank) ~ NA_real_,
         prev_rank > 50 ~ NA_real_,  # Was below top 50
         TRUE ~ prev_rank - rank
+      ),
+      # Use API delta for downloads growth if available, otherwise calculate from previous period
+      downloads_growth = case_when(
+        !is.na(downloads_delta) & !is.na(downloads_comparison) & downloads_comparison > 0 ~ 
+          downloads_delta / downloads_comparison,
+        !is.na(prev_downloads) & prev_downloads > 0 ~ 
+          (downloads_30d - prev_downloads) / prev_downloads,
+        TRUE ~ NA_real_
       )
     )
 } else {
   kpi_data <- kpi_data %>%
-    mutate(rank_change = NA_real_)
+    mutate(
+      rank_change = NA_real_,
+      # Use API delta for downloads growth if available
+      downloads_growth = if_else(!is.na(downloads_delta) & !is.na(downloads_comparison) & downloads_comparison > 0,
+                                downloads_delta / downloads_comparison,
+                                NA_real_)
+    )
 }
 
 # Select final columns
@@ -160,9 +183,9 @@ kpi_data <- kpi_data %>%
     app_name = unified_app_name,
     dau_us = dau_30d_us,
     mau_us = mau_month_us,
-    dau_growth,
-    active_rate,
+    dau_mau_ratio,
     downloads_30d,
+    downloads_growth,
     retention_d1 = retention_1d_us,
     retention_d7 = retention_7d_us,
     retention_d30 = retention_30d_us,
@@ -204,9 +227,9 @@ col_labels <- list(
   app_name = "Game",
   dau_us = "DAU",
   mau_us = "MAU",
-  dau_growth = "Growth",
-  active_rate = "Active %",
-  downloads_30d = "Downloads",
+  dau_mau_ratio = "DAU/MAU",
+  downloads_30d = "DL (30d)",
+  downloads_growth = "DL Δ%",
   retention_d1 = "D1",
   retention_d7 = "D7",
   retention_d30 = "D30",
@@ -222,15 +245,21 @@ kpi_table <- kpi_table %>%
 # Add column spanners for logical grouping - only for columns that exist
 available_cols <- names(kpi_data %>% slice_head(n = 10))
 
-if (all(c("dau_us", "mau_us", "active_rate") %in% available_cols)) {
+if (all(c("dau_us", "mau_us", "dau_mau_ratio") %in% available_cols)) {
   kpi_table <- kpi_table %>%
     tab_spanner(
       label = "Active Users",
-      columns = c(dau_us, mau_us, active_rate)
+      columns = c(dau_us, mau_us, dau_mau_ratio)
     )
 }
 
-# Downloads column doesn't exist in this data
+if (all(c("downloads_30d", "downloads_growth") %in% available_cols)) {
+  kpi_table <- kpi_table %>%
+    tab_spanner(
+      label = "Acquisition",
+      columns = c(downloads_30d, downloads_growth)
+    )
+}
 
 if (all(c("retention_d1", "retention_d7", "retention_d30") %in% available_cols)) {
   kpi_table <- kpi_table %>%
@@ -272,20 +301,22 @@ if ("downloads_30d" %in% table_cols) {
     )
 }
 
-# Format growth as percentage if it exists
-if ("dau_growth" %in% table_cols) {
+# Format growth columns as percentages
+growth_cols <- c("dau_growth", "mau_growth", "downloads_growth")
+growth_cols_present <- growth_cols[growth_cols %in% table_cols]
+if (length(growth_cols_present) > 0) {
   kpi_table <- kpi_table %>%
     fmt_percent(
-      columns = dau_growth,
+      columns = all_of(growth_cols_present),
       decimals = 1
     )
 }
 
-# Format active rate as percentage
-if ("active_rate" %in% table_cols) {
+# Format DAU/MAU ratio as percentage
+if ("dau_mau_ratio" %in% table_cols) {
   kpi_table <- kpi_table %>%
     fmt_percent(
-      columns = active_rate,
+      columns = dau_mau_ratio,
       decimals = 0
     )
 }
@@ -356,33 +387,56 @@ kpi_table <- kpi_table %>%
 kpi_table <- kpi_table %>%
   sub_missing(columns = everything(), missing_text = "—")
 
+# Add heat map coloring for downloads growth if it exists
+if ("downloads_growth" %in% available_cols) {
+  kpi_table <- kpi_table %>%
+    data_color(
+      columns = downloads_growth,
+      method = "numeric",
+      palette = c("#d73027", "#fee08b", "#1a9850"),
+      domain = c(-0.3, 0, 0.3)
+    )
+}
+
+# Add heat map for DAU/MAU ratio (engagement)
+if ("dau_mau_ratio" %in% available_cols) {
+  kpi_table <- kpi_table %>%
+    data_color(
+      columns = dau_mau_ratio,
+      method = "numeric",
+      palette = c("#d73027", "#fee08b", "#1a9850"),  # Red to yellow to green
+      domain = c(0, 0.3, 0.6),  # 0-30% is poor, 30% is average, 60%+ is excellent
+      na_color = "#EEEEEE"  # Light grey for NA values
+    )
+}
+
+# Add heat map for retention metrics
+retention_cols_for_heatmap <- c("retention_d1", "retention_d7", "retention_d30")
+retention_cols_present_heatmap <- retention_cols_for_heatmap[retention_cols_for_heatmap %in% available_cols]
+if (length(retention_cols_present_heatmap) > 0) {
+  kpi_table <- kpi_table %>%
+    data_color(
+      columns = all_of(retention_cols_present_heatmap),
+      method = "numeric",
+      palette = c("#d73027", "#fee08b", "#1a9850"),  # Red to yellow to green
+      domain = c(0, 0.25, 0.5),  # 0-25% is poor, 25% is average, 50%+ is excellent
+      na_color = "#EEEEEE"  # Light grey for NA values
+    )
+}
+
 # Add footnotes and source note
 kpi_table <- kpi_table %>%
   tab_source_note(
-    source_note = "Source: Sensor Tower API | US Market"
-  ) %>%
-  tab_footnote(
-    footnote = "DAU: Last 30 Days Average Daily Active Users",
-    locations = cells_column_labels(columns = dau_us)
-  ) %>%
-  tab_footnote(
-    footnote = "MAU: July 2025 Monthly Active Users",
-    locations = cells_column_labels(columns = mau_us)
-  ) %>%
-  tab_footnote(
-    footnote = "Retention: Last Quarter Average (US)",
-    locations = cells_column_spanners(spanners = "Retention")
-  ) %>%
-  tab_footnote(
-    footnote = "Δ: Rank change vs previous 30-day period",
-    locations = cells_column_labels(columns = rank_change)
+    source_note = md("**Source:** Sensor Tower API<br>
+    **DAU:** 30-day avg | **MAU:** July 2025 | **DL Δ%:** vs prev 30-day period | **Retention:** Last quarter avg")
   ) %>%
   # Keep 538 theme as base, just adjust a few things
   tab_options(
     table.font.size = px(12),
-    data_row.padding = px(6),
-    source_notes.font.size = px(10),
-    footnotes.font.size = px(9)
+    data_row.padding = px(5),
+    source_notes.font.size = px(9),
+    footnotes.font.size = px(8),
+    source_notes.padding = px(3)
   )
 
 # Save table
