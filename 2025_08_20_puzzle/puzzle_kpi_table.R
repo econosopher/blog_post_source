@@ -52,10 +52,10 @@ top_apps <- tryCatch({
     regions = "US",
     date = start_date,
     end_date = end_date,
-    measure = "DAU",  # Sort by DAU instead of revenue
+    measure = "revenue",  # Use revenue endpoint but custom filter handles DAU sorting
     comparison_attribute = "absolute",  # Get absolute values
     time_range = "day",  # Daily granularity like RPG
-    limit = 50,
+    limit = 10,  # Only get top 10
     device_type = "total",
     enrich_response = TRUE,
     deduplicate_apps = TRUE
@@ -80,7 +80,7 @@ prev_apps <- tryCatch({
     regions = "US",
     date = prev_start,
     end_date = prev_end,
-    measure = "DAU",  # Sort by DAU
+    measure = "revenue",  # Use revenue endpoint
     comparison_attribute = "absolute",
     time_range = "day",
     limit = 100,  # Get more to capture rank changes
@@ -116,9 +116,9 @@ if (!is.null(prev_apps)) {
   prev_ranks <- NULL
 }
 
-# Select and process the data - need to sort by DAU
+# Select and process the data - sort by DAU even though we used revenue endpoint
 kpi_data <- top_apps %>%
-  arrange(desc(dau_30d_us)) %>%  # Sort by DAU descending
+  arrange(desc(dau_30d_us)) %>%  # Sort by 30-day average DAU
   mutate(
     rank = row_number(),
     name_normalized = toupper(str_replace_all(unified_app_name, "[^A-Za-z0-9]", "")),
