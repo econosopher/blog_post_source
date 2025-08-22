@@ -18,17 +18,35 @@ tryCatch({
 
 message("=== Generating Word Puzzle Games KPI Table ===\n")
 
-# Use the custom fields function we built to get Word games
-# This is much cleaner and self-documenting
-top_apps <- st_get_filtered_apps(
-  field_name = "Game Sub-genre",
-  field_values = "Word",
+# First get the data without enrichment to see raw structure
+raw_apps <- st_top_charts(
+  os = "unified",
+  category = 0,
+  custom_fields_filter_id = "603697f4241bc16eb8570d37",  # Word games filter
+  custom_tags_mode = "include_unified_apps",
   measure = "DAU",
   regions = "US",
   date = "2025-07-21",
   end_date = "2025-08-19",
   limit = 10,
-  enrich_response = TRUE
+  enrich_response = FALSE,  # Get raw data first
+  deduplicate_apps = FALSE
+)
+
+# Now enrich with full unnesting to get gender data
+# We'll manually control the enrichment to ensure we get demographics
+top_apps <- st_top_charts(
+  os = "unified",
+  category = 0,
+  custom_fields_filter_id = "603697f4241bc16eb8570d37",
+  custom_tags_mode = "include_unified_apps",
+  measure = "DAU",
+  regions = "US",
+  date = "2025-07-21",
+  end_date = "2025-08-19",
+  limit = 10,
+  enrich_response = TRUE,
+  deduplicate_apps = TRUE
 )
 
 message(sprintf("Found %d Word games\n", nrow(top_apps)))
@@ -56,8 +74,10 @@ kpi_data <- top_apps %>%
     
     # Demographics
     age = round(age_us),
-    # Check for gender column and handle missing data
-    gender_col = if ("entities.custom_tags.Genders (Last Quarter, US)" %in% names(.)) {
+    # Check for gender column - it's now called genders_us after enrichment
+    gender_col = if ("genders_us" %in% names(.)) {
+      genders_us
+    } else if ("entities.custom_tags.Genders (Last Quarter, US)" %in% names(.)) {
       `entities.custom_tags.Genders (Last Quarter, US)`
     } else if ("aggregate_tags.Genders (Last Quarter, US)" %in% names(.)) {
       `aggregate_tags.Genders (Last Quarter, US)`
