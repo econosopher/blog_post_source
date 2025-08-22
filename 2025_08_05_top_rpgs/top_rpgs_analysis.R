@@ -14,7 +14,7 @@ prev_cache_file <- ".cache/rpg_data_prev_month_2025-08-05.rds"
 if (!file.exists(cache_file)) {
   # Fetch fresh data if no cache
   message("Fetching RPG data from Sensor Tower...")
-  # Using exact parameters from the URL
+  # Using improved function with automatic deduplication
   rpg_data <- st_top_charts(
     category = 0,  # All categories (custom filter handles RPG filtering)
     custom_fields_filter_id = "60482639241bc16eb8331927",
@@ -27,7 +27,9 @@ if (!file.exists(cache_file)) {
     time_range = "day",  # Changed from "month" to match URL period=day
     limit = 50,
     device_type = "total",
-    comparison_attribute = "absolute"  # Include comparison data
+    comparison_attribute = "absolute",  # Include comparison data
+    enrich_response = TRUE,
+    deduplicate_apps = TRUE  # Ensure proper deduplication
   )
   
   # Create cache directory and save
@@ -48,6 +50,8 @@ if (!file.exists(prev_cache_file)) {
     date = as.Date("2025-06-05"),
     end_date = as.Date("2025-07-04"),
     measure = "revenue",
+    enrich_response = TRUE,
+    deduplicate_apps = TRUE,
     os = "unified",
     regions = "US",
     time_range = "day",

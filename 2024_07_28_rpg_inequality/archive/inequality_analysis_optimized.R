@@ -128,16 +128,23 @@ run_optimized_rpg_analysis <- function(
     os = "unified",
     date = end_date,
     limit = top_n,  # Just get top N games
-    deduplicate = FALSE  # Keep raw data to extract app IDs
+    enrich_response = TRUE,
+    deduplicate_apps = TRUE  # Use proper deduplication
   )
   
   if (verbose) cat(sprintf("Retrieved %d app entries\n", nrow(rpg_market)))
   
-  # Step 2: Extract platform-specific app IDs
-  app_ids <- extract_app_ids(rpg_market)
+  # Step 2: Extract unified app IDs from deduplicated data
+  if ("unified_app_id" %in% names(rpg_market)) {
+    unified_ids <- unique(rpg_market$unified_app_id)
+    app_ids <- list(unified = unified_ids)
+  } else {
+    app_ids <- extract_app_ids(rpg_market)
+  }
   
   # If extraction failed, try alternative approach
-  if (length(app_ids$ios) == 0 && length(app_ids$android) == 0) {
+  if (("unified" %in% names(app_ids) && length(app_ids$unified) == 0) ||
+      (!("unified" %in% names(app_ids)) && length(app_ids$ios) == 0 && length(app_ids$android) == 0)) {
     # Get platform-specific data separately
     if (verbose) cat("Fetching platform-specific top charts...\n")
     
@@ -148,7 +155,8 @@ run_optimized_rpg_analysis <- function(
         os = "ios",
         date = end_date,
         limit = top_n,
-        deduplicate = FALSE
+        enrich_response = TRUE,
+        deduplicate_apps = TRUE
       )
     }, error = function(e) NULL)
     
@@ -159,7 +167,8 @@ run_optimized_rpg_analysis <- function(
         os = "android",
         date = end_date,
         limit = top_n,
-        deduplicate = FALSE
+        enrich_response = TRUE,
+        deduplicate_apps = TRUE
       )
     }, error = function(e) NULL)
     
@@ -182,23 +191,32 @@ run_optimized_rpg_analysis <- function(
   
   all_daily_data <- list()
   
-  # Fetch iOS data
-  if (length(app_ids$ios) > 0) {
-    # Limit to top N iOS apps
-    ios_batch <- head(app_ids$ios, top_n)
-    ios_daily <- fetch_batch_daily_data(ios_batch, "ios", start_date, end_date, verbose)
-    if (!is.null(ios_daily)) {
-      all_daily_data$ios <- ios_daily
+  # If we have unified IDs, use them directly
+  if ("unified" %in% names(app_ids) && length(app_ids$unified) > 0) {
+    unified_batch <- head(app_ids$unified, top_n)
+    unified_daily <- fetch_batch_daily_data(unified_batch, "unified", start_date, end_date, verbose)
+    if (!is.null(unified_daily)) {
+      all_daily_data$unified <- unified_daily
     }
-  }
-  
-  # Fetch Android data
-  if (length(app_ids$android) > 0) {
-    # Limit to top N Android apps
-    android_batch <- head(app_ids$android, top_n)
-    android_daily <- fetch_batch_daily_data(android_batch, "android", start_date, end_date, verbose)
-    if (!is.null(android_daily)) {
-      all_daily_data$android <- android_daily
+  } else {
+    # Fetch iOS data
+    if (length(app_ids$ios) > 0) {
+      # Limit to top N iOS apps
+      ios_batch <- head(app_ids$ios, top_n)
+      ios_daily <- fetch_batch_daily_data(ios_batch, "ios", start_date, end_date, verbose)
+      if (!is.null(ios_daily)) {
+        all_daily_data$ios <- ios_daily
+      }
+    }
+    
+    # Fetch Android data
+    if (length(app_ids$android) > 0) {
+      # Limit to top N Android apps
+      android_batch <- head(app_ids$android, top_n)
+      android_daily <- fetch_batch_daily_data(android_batch, "android", start_date, end_date, verbose)
+      if (!is.null(android_daily)) {
+        all_daily_data$android <- android_daily
+      }
     }
   }
   

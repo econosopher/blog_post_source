@@ -48,23 +48,27 @@ calculate_lorenz <- function(values) {
 # Step 1: Get top games and filter
 cat("Step 1: Fetching top RPG and Puzzle games from US market...\n")
 
-# Get top charts - now with standardized revenue units
+# Get top charts - now with improved deduplication and sorting
 top_rpgs_raw <- st_top_charts(
   measure = "revenue",
   category = RPG_CATEGORY,
-  os = "ios",
+  os = "unified",  # Use unified for better deduplication
   regions = "US",
   time_range = "month",
-  limit = FETCH_EXTRA
+  limit = FETCH_EXTRA,
+  enrich_response = TRUE,
+  deduplicate_apps = TRUE  # Ensure proper deduplication
 )
 
 top_puzzles_raw <- st_top_charts(
   measure = "revenue",
   category = PUZZLE_CATEGORY,
-  os = "ios",
+  os = "unified",  # Use unified for better deduplication
   regions = "US",
   time_range = "month",
-  limit = FETCH_EXTRA
+  limit = FETCH_EXTRA,
+  enrich_response = TRUE,
+  deduplicate_apps = TRUE  # Ensure proper deduplication
 )
 
 # Use the standardized 'revenue' column if available
@@ -74,11 +78,18 @@ if ("revenue" %in% names(top_rpgs_raw)) {
   cat("⚠ Note: Update sensortowerR for automatic revenue standardization\n")
 }
 
-# Get app details
-get_detailed_info <- function(app_ids) {
+# Get app details - handle unified IDs properly
+get_detailed_info <- function(app_data) {
+  # Extract unified app IDs if available
+  if ("unified_app_id" %in% names(app_data)) {
+    app_ids <- unique(app_data$unified_app_id)
+  } else {
+    app_ids <- unique(app_data$app_id)
+  }
+  
   details <- st_app_details(
     app_ids = as.character(app_ids),
-    os = "ios"
+    os = "unified"  # Use unified OS for better results
   )
   
   if (!is.null(details)) {
@@ -105,8 +116,8 @@ get_detailed_info <- function(app_ids) {
   }
 }
 
-rpg_details <- get_detailed_info(top_rpgs_raw$app_id)
-puzzle_details <- get_detailed_info(top_puzzles_raw$app_id)
+rpg_details <- get_detailed_info(top_rpgs_raw)
+puzzle_details <- get_detailed_info(top_puzzles_raw)
 
 # Clean lists
 clean_rpgs <- rpg_details %>%
@@ -126,13 +137,20 @@ all_clean_games <- bind_rows(
 # Step 2: Fetch daily revenue data and calculate individual Gini coefficients
 cat("\nStep 2: Fetching 360-day daily revenue data...\n")
 
-# Fetch daily data for all games
+# Fetch daily data for all games - use unified IDs if available
 end_date <- Sys.Date() - 1
 start_date <- end_date - 359
 
+# Use unified IDs if available for better data quality
+if ("unified_app_id" %in% names(all_clean_games)) {
+  app_ids_to_fetch <- unique(all_clean_games$unified_app_id)
+} else {
+  app_ids_to_fetch <- unique(all_clean_games$app_id)
+}
+
 daily_revenue_data <- st_sales_report(
-  app_ids = all_clean_games$app_id,
-  os = "ios",
+  app_ids = as.character(app_ids_to_fetch),
+  os = "unified",  # Use unified for cross-platform data
   countries = "US",
   start_date = as.character(start_date),
   end_date = as.character(end_date),

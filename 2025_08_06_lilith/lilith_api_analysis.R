@@ -31,6 +31,8 @@ if (file.exists(cache_file)) {
   message("Fetching fresh data from Sensor Tower API...")
   
   # Define Lilith Games titles with their app IDs
+  # Note: Consider using st_custom_fields_filter with Publisher = "Lilith Games" 
+  # for automatic portfolio discovery instead of hardcoding
   lilith_games <- list(
     "AFK Arena" = list(
       ios = "1410615100", 
